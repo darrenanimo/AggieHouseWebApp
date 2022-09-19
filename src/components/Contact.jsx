@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { db } from "../firebase-config";
+import { useUser } from "../context/UserProvider";
 
 import {
   collection,
@@ -13,6 +14,7 @@ import {
 import "../pages/css/Resources.css";
 
 const BoardInfo = ({ deleteState }) => {
+  const { users, userFirebaseData } = useUser();
   const [boardData, setBoardData] = useState([]);
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -21,6 +23,10 @@ const BoardInfo = ({ deleteState }) => {
   const [newContactForm, setNewContactForm] = useState(false);
 
   const contactCollectionRef = collection(db, "contacts");
+
+  const isAdmin = () => {
+    return userFirebaseData?.role === "admin";
+  };
 
   useEffect(() => {
     let unsub;
@@ -110,7 +116,7 @@ const BoardInfo = ({ deleteState }) => {
             </div>
           );
         })}
-        {!newContactForm && (
+        {isAdmin() && !newContactForm && (
           <button
             className="addButton"
             onClick={() => {
@@ -120,7 +126,7 @@ const BoardInfo = ({ deleteState }) => {
             Add Contact
           </button>
         )}
-        {newContactForm && (
+        {isAdmin() && newContactForm && (
           <form onSubmit={addContact}>
             <input
               autoFocus

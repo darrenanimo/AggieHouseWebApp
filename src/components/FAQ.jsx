@@ -9,11 +9,13 @@ import {
   addDoc,
   onSnapshot,
 } from "@firebase/firestore";
+import { useUser } from "../context/UserProvider";
 
 import "../pages/css/Resources.css";
 
 const FAQInfo = ({ deleteState }) => {
   // const [edit, toggleEdit] = useState(false);
+  const { users, userFirebaseData } = useUser();
   const [faqData, setFAQData] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
@@ -22,6 +24,10 @@ const FAQInfo = ({ deleteState }) => {
   // const [answerSubmittedMsg, setAnswerSubmittedMsg] = useState("");
 
   const FAQsCollectionRef = collection(db, "faqs");
+
+  const isAdmin = () => {
+    return userFirebaseData?.role === "admin";
+  };
 
   useEffect(() => {
     let unsub;
@@ -107,7 +113,7 @@ const FAQInfo = ({ deleteState }) => {
             </div>
           );
         })}
-        {!newFAQForm && (
+        {isAdmin() && !newFAQForm && (
           <button
             className="addButton"
             onClick={() => {
@@ -117,7 +123,7 @@ const FAQInfo = ({ deleteState }) => {
             Add FAQ
           </button>
         )}
-        {newFAQForm && (
+        {isAdmin() && newFAQForm && (
           <form onSubmit={addFAQ}>
             <input
               autoFocus

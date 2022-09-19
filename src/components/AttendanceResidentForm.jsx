@@ -50,6 +50,7 @@ function AttendanceResidentForm() {
         <form onSubmit={addResident}>
           <input
             autoFocus
+            className='inputField'
             type="text"
             placeholder="First Name"
             onChange={(e) => {
@@ -57,6 +58,7 @@ function AttendanceResidentForm() {
             }}
           />
           <input
+            className='inputField'
             type="text"
             placeholder="Last Name"
             onChange={(e) => {
@@ -64,8 +66,9 @@ function AttendanceResidentForm() {
             }}
           />
           <div style={{ display: "flex" }}>
-            <input type="submit" />
+            <input className='optionButtons' type="submit" />
             <button
+              className='optionButtons'
               onClick={() => {
                 setShowResidentForm(false);
                 setResidentFamilyName("");

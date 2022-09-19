@@ -9,6 +9,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+import { useUser } from "../context/UserProvider";
+
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
@@ -28,6 +30,12 @@ function MealsCalendar() {
   const [selectedMeal, setSelectedMeal] = useState(undefined);
   const [myMeals, setMeals] = useState([]);
   const mealsCollectionRef = collection(db, "meals");
+
+  const { userFirebaseData } = useUser();
+
+  const isAdmin = () => {
+    return userFirebaseData?.role === "admin";
+  };
 
   useEffect(() => {
     const getMeals = async () => {
@@ -84,7 +92,7 @@ function MealsCalendar() {
             <div className="modalBody">
               Ingredients: {selectedMeal.ingredients}
             </div>
-            <div className="modalBody">
+            { isAdmin() && (<div className="modalBody">
               Add Ingredients:{" "}
               <input
                 className="inputText"
@@ -101,7 +109,7 @@ function MealsCalendar() {
               >
                 Submit
               </button>
-            </div>
+            </div>)}
             <div className="modalBody">
               Link to Recipe Book:{" "}
               <a
@@ -114,7 +122,7 @@ function MealsCalendar() {
               </a>
             </div>
             <br />
-            <div className="modalFooter">
+            { isAdmin() && (<div className="modalFooter">
               <button
                 className="modalButtons"
                 onClick={() => {
@@ -136,7 +144,7 @@ function MealsCalendar() {
                 {" "}
                 Delete{" "}
               </button>
-            </div>
+            </div> )}
           </div>
         )}
       </>
@@ -150,6 +158,7 @@ function MealsCalendar() {
 
   const slotSelection = useCallback(
     ({ start, end }) => {
+      if (isAdmin()) {
       const title = window.prompt("New Meal Name:");
       if (title) {
         const addMeal = async () => {
@@ -165,7 +174,7 @@ function MealsCalendar() {
       } else {
         console.error("Empty title");
       }
-    },
+    }},
     [setMeals]
   );
 

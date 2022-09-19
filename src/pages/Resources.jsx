@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useUser } from "../context/UserProvider";
 
 import FAQInfo from "../components/FAQ";
 import BoardInfo from "../components/Contact";
@@ -39,7 +40,12 @@ function a11yProps(index) {
 export default function Resources() {
   const [value, setValue] = React.useState(0);
   const [deleteState, toggleDeleteState] = useState(false);
+  const { users, userFirebaseData } = useUser();
 
+  const isAdmin = () => {
+    return userFirebaseData?.role === "admin";
+  };
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -64,14 +70,14 @@ export default function Resources() {
         <TabPanel value={value} index={0}>
           <h2>Contact Info</h2>
           <BoardInfo deleteState={deleteState} />
-          <button
+          {isAdmin() && (<button
             className="addButton"
             onClick={() => {
               toggleDeleteState(!deleteState);
             }}
           >
             Delete Contact
-          </button>
+          </button>)}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <h2>Links to Documents in the Aggie House Drive</h2>
@@ -145,14 +151,14 @@ export default function Resources() {
         <TabPanel value={value} index={2}>
           <h2>FAQs</h2>
           <FAQInfo deleteState={deleteState} />
-          <button
+          {isAdmin() && (<button
             className="addButton"
             onClick={() => {
               toggleDeleteState(!deleteState);
             }}
           >
             Delete FAQ
-          </button>
+          </button>)}
         </TabPanel>
         <TabPanel value={value} index={3}>
           For videos to use the website and other common 'how-to's
