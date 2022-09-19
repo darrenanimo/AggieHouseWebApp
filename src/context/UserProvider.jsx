@@ -8,12 +8,19 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, setDoc } from "@firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+} from "@firebase/firestore";
 import { createContext, useState } from "react";
 import { auth, db } from "../firebase-config";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
 const UserContext = createContext({});
 
 export const useUser = () => {
@@ -86,7 +93,7 @@ export const UserProvider = ({ children }) => {
               setUserFirebaseData(result.data());
             })
             .then(() => {
-              getDocs(collection(db, "users"))
+              getDocs(query(collection(db, "users"), orderBy("displayName")))
                 .then((result) => {
                   setUsers(
                     result.docs.map((doc) => ({ ...doc.data(), id: doc.id }))

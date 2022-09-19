@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { db, storage } from "../firebase-config";
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 
-import { deleteObject, getDownloadURL, ref } from "firebase/storage";
+import { deleteObject, ref } from "firebase/storage";
 
 import "./css/UserInfo.css";
 
@@ -15,24 +15,28 @@ function UserInfo({ user }) {
   const [numberSubmittedMsg, setNumberSubmittedMsg] = useState("");
   const [roleSubmittedMsg, setRoleSubmittedMsg] = useState("");
   const [userDeletedMsg, setUserDeletedMsg] = useState("");
+  const [userData, setUserData] = useState(user);
+  const [show, setShow] = useState(true); // after delete user, don't show
 
   const submitNumber = async (e) => {
     e.preventDefault();
-    await updateDoc(doc(db, "users", user.id), { phoneNumber: newNumber });
+    await updateDoc(doc(db, "users", userData.id), { phoneNumber: newNumber });
+    setUserData((prev) => ({ ...prev, phoneNumber: newNumber }));
     setNumberSubmittedMsg("Number submitted!");
   };
 
   const submitRole = async (e) => {
     e.preventDefault();
-    await updateDoc(doc(db, "users", user.id), { role: newRole });
+    await updateDoc(doc(db, "users", userData.id), { role: newRole });
+    setUserData((prev) => ({ ...prev, role: newRole }));
     setRoleSubmittedMsg("Role submitted!");
   };
 
   // deletes user from database, removes pfp from storage
   const deleteUser = async () => {
-    await deleteDoc(doc(db, "users", user.id));
+    await deleteDoc(doc(db, "users", userData.id));
     try {
-      const oldImageRef = ref(storage, user.photoURL);
+      const oldImageRef = ref(storage, userData.photoURL);
       deleteObject(oldImageRef)
         .then(() => {
           console.log("image delete success");
@@ -49,16 +53,19 @@ function UserInfo({ user }) {
 
   const confirmDelete = () => {
     if (
-      confirm("Are you sure you want to delete user " + user.displayName + "?")
+      confirm(
+        "Are you sure you want to delete user " + userData.displayName + "?"
+      )
     ) {
       deleteUser();
+      setShow(false);
     }
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: show ? "flex" : "none", alignItems: "center" }}>
       <img
-        src={user.photoURL}
+        src={userData.photoURL}
         className="pfp"
         height="96px"
         width="96px"
@@ -66,13 +73,13 @@ function UserInfo({ user }) {
       />
       <div className="user-card" style={{ marginLeft: "10px" }}>
         <p>
-          Name: {user.displayName} {user.pronouns && "("}
-          {user.pronouns}
-          {user.pronouns && ")"}
+          Name: {userData.displayName} {userData.pronouns && "("}
+          {userData.pronouns}
+          {userData.pronouns && ")"}
         </p>
-        <p>Email: {user.email}</p>
-        <p>Number: {user.phoneNumber}</p>
-        <p>Role: {user.role}</p>
+        <p>Email: {userData.email}</p>
+        <p>Number: {userData.phoneNumber}</p>
+        <p>Role: {userData.role}</p>
       </div>
       {!edit && (
         <button className="edit-button" onClick={() => toggleEdit(!edit)}>

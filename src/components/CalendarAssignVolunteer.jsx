@@ -44,7 +44,7 @@ function CalendarAssignVolunteer({ selectedEvent, setSelectedEvent }) {
     },
   };
 
-  // submit new assignment to database
+  // submit new assignment to 'events'
   const submitAssignment = async () => {
     if (isEmpty(newAssignment)) {
       alert("No user chosen!");

@@ -31,6 +31,7 @@ function showCalendar() {
   const [selectedEvent, setSelectedEvent] = useState(undefined);
   const [myEvents, setEvents] = useState([]);
   const [busy, setBusy] = useState(true);
+
   const eventsCollectionRef = collection(db, "events");
   const bottomRef = useRef(null);
 
@@ -167,7 +168,6 @@ function showCalendar() {
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
                 setModalState={setModalState}
-                myEvents={myEvents}
               />
             )}
             <div ref={bottomRef} />

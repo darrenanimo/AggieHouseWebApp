@@ -15,7 +15,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 // import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import "../pages/css/Todo.css"
+import "../pages/css/Todo.css";
 
 function MealsCalendar() {
   const localizer = momentLocalizer(moment);
@@ -28,11 +28,6 @@ function MealsCalendar() {
   const [selectedMeal, setSelectedMeal] = useState(undefined);
   const [myMeals, setMeals] = useState([]);
   const mealsCollectionRef = collection(db, "meals");
-  const bottomRef = useRef(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [modalState]);
 
   useEffect(() => {
     const getMeals = async () => {
@@ -68,10 +63,10 @@ function MealsCalendar() {
       const mealDoc = doc(db, "meals", id);
       const newFields = { ingredients: newIngredients };
       await updateDoc(mealDoc, newFields);
+      setSelectedMeal();
     };
 
     const addNewLink = async (id) => {
-
       if (newLink.length == 0) {
         alert("Cannot submit empty link");
         return;
@@ -79,54 +74,72 @@ function MealsCalendar() {
       const mealDoc = doc(db, "meals");
       const newFields = { link: newLink };
       await updateDoc(mealDoc, newFields);
-    }
+    };
 
     return (
-      <div className={`modal-${modalState == true ? "show" : "hide"}`}>
-        <div className="modalTitle">{selectedMeal.title}</div>
-        <div className="modalBody">Ingredients: {selectedMeal.ingredients}</div>
-        <div className="modalBody">
-          Add Ingredients:{" "}
-          <input
-            className='inputText'
-            placeholder="Ex: Rice"
-            onChange={(e) => {
-              setIngredients(e.target.value);
-            }}
-          />{" "}
-          <button
-            className="modalSubmit"
-            onClick={() => {
-              updateIngredients(selectedMeal.id, ...selectedMeal.ingredients);
-              setModalState(false);
-            }}
-          >
-            Submit
-          </button>
-        </div>
-        <div className="modalBody">Link to Recipe Book: <a style={{textDecoration: "none", color: '#545454'}} href='https://docs.google.com/document/d/1UgGepZqLtNeteT1KAp5mIkjRnSpaI7ZYDQDe373sTHY/view' target="_blank"> <b>{selectedMeal.title}</b> </a></div>
-        <br />
-        <div className="modalFooter">
-          <button
-            className="modalButtons"
-            onClick={() => {
-              setModalState(false);
-            }}
-          >
-            Cancel
-          </button>
-          <button
-            className="modalButtons"
-            style = {{marginLeft:"-15%"}}
-            onClick={() => {
-              deleteMeal(selectedMeal.id);
-              setModalState(false);
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      </div>
+      <>
+        {modalState && (
+          <div className={`modal-${modalState == true ? "show" : "hide"}`}>
+            <div className="modalTitle">{selectedMeal.title}</div>
+            <div className="modalBody">
+              Ingredients: {selectedMeal.ingredients}
+            </div>
+            <div className="modalBody">
+              Add Ingredients:{" "}
+              <input
+                className="inputText"
+                placeholder="Ex: Rice"
+                onChange={(e) => {
+                  setIngredients(e.target.value);
+                }}
+              />{" "}
+              <button
+                className="modalSubmit"
+                onClick={() => {
+                  updateIngredients(selectedMeal.id, selectedMeal.ingredients);
+                }}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="modalBody">
+              Link to Recipe Book:{" "}
+              <a
+                style={{ textDecoration: "none", color: "#545454" }}
+                href="https://docs.google.com/document/d/1UgGepZqLtNeteT1KAp5mIkjRnSpaI7ZYDQDe373sTHY/view"
+                target="_blank"
+              >
+                {" "}
+                <b>{selectedMeal.title}</b>{" "}
+              </a>
+            </div>
+            <br />
+            <div className="modalFooter">
+              <button
+                className="modalButtons"
+                onClick={() => {
+                  console.log(modalState);
+                  setModalState(false);
+                }}
+              >
+                {" "}
+                Cancel{" "}
+              </button>
+              <button
+                className="modalButtons"
+                style={{ marginLeft: "-15%" }}
+                onClick={() => {
+                  deleteMeal(selectedMeal.id);
+                  setModalState(false);
+                }}
+              >
+                {" "}
+                Delete{" "}
+              </button>
+            </div>
+          </div>
+        )}
+      </>
     );
   };
 
@@ -175,6 +188,7 @@ function MealsCalendar() {
           onSelectSlot={slotSelection}
           selectable
         />
+
         <br />
       </div>
     </div>

@@ -36,6 +36,7 @@ function CalendarEventInfo({ selectedEvent, setSelectedEvent, setModalState }) {
 
   const deleteEvent = async (id) => {
     if (isAdmin()) {
+      // delete event from 'events'
       const eventDoc = doc(db, "events", id);
       await deleteDoc(eventDoc);
     }
