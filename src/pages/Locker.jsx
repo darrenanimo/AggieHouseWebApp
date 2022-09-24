@@ -30,17 +30,16 @@ function Lock() {
     const newFields = { combination: newCode };
     await updateDoc(code, newFields);
     setCurrCode((prev) => ({ ...prev, combination: newCode }));
-    console.log("code updated!");
   };
 
   return (
     <main>
       <NavBar />
-      <div style={{margin:'15px'}}>
+      <div style={{ margin: "15px" }}>
         <p>Current locker code: {currCode.combination}</p>
         <label htmlFor="lock-code">Locker Code:</label>
         <input
-          className='inputText'
+          className="inputText"
           type="number"
           id="lock-code"
           name="lock-code"
@@ -49,8 +48,13 @@ function Lock() {
           max="9999"
         />
         <div>
-          <button onClick={handleRandomNum} className="button">Generate New Code</button><br/>
-          <button onClick={updateCode} className="button">Save New Code</button>
+          <button onClick={handleRandomNum} className="button">
+            Generate New Code
+          </button>
+          <br />
+          <button onClick={updateCode} className="button">
+            Save New Code
+          </button>
         </div>
       </div>
     </main>

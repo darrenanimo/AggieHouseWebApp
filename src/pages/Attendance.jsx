@@ -82,7 +82,7 @@ function Attendance() {
             console.log("attendance data updated");
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       });
     } else {
@@ -94,7 +94,7 @@ function Attendance() {
           console.log("attendance data added!");
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
     setAttendanceSubmittedMsg("Submitted!");
@@ -131,9 +131,11 @@ function Attendance() {
       {!isBusy && (
         <>
           <form onSubmit={changeDate}>
-            <label htmlFor="date-picker" style={{margin: '10px'}}>View past attendance: </label>
+            <label htmlFor="date-picker" style={{ margin: "10px" }}>
+              View past attendance:{" "}
+            </label>
             <input
-              className='inputField'
+              className="inputField"
               id="date-picker"
               type="date"
               defaultValue={currentDate()}
@@ -150,7 +152,7 @@ function Attendance() {
               deleteState={deleteState}
             />
           </div>
-          <div className='submission'>
+          <div className="submission">
             <span style={{ marginRight: "10px" }}>
               {attendanceSubmittedMsg}
             </span>
@@ -160,10 +162,17 @@ function Attendance() {
           </div>
         </>
       )}
-      <div style={{ display: "flex", flexDirection: "column", width: "130px", marginTop: '10px' }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "130px",
+          marginTop: "10px",
+        }}
+      >
         <AttendanceResidentForm />
         <button
-          className='optionButtons'
+          className="optionButtons"
           style={{ marginTop: "5px" }}
           onClick={() => {
             toggleDeleteState(!deleteState);

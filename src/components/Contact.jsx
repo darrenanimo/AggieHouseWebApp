@@ -9,7 +9,7 @@ import {
   doc,
   addDoc,
   onSnapshot,
-  orderBy
+  orderBy,
 } from "@firebase/firestore";
 
 import "../pages/css/Resources.css";
@@ -83,8 +83,6 @@ const BoardInfo = ({ deleteState }) => {
     await deleteDoc(doc(db, "contacts", contacts.id));
   };
 
-  console.log(boardData);
-
   return (
     <div className="body">
       <div>
@@ -111,9 +109,10 @@ const BoardInfo = ({ deleteState }) => {
                   </button>
                 )}
               </h2>
-              <b className="field">Name:</b> {contact.name}{" "}<br />
-              <b className="field">Email:</b> {contact.email}{" "}<br />
-              <b className="field">Phone Number:</b> {contact.number}<br />
+              <b className="field">Name:</b> {contact.name} <br />
+              <b className="field">Email:</b> {contact.email} <br />
+              <b className="field">Phone Number:</b> {contact.number}
+              <br />
             </div>
           );
         })}

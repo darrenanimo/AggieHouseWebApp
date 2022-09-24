@@ -8,9 +8,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 function Chores() {
   const [isBusy, setBusy] = useState(true);
-  const [showChoreForm, setShowChoreForm] = useState(false);
   const [choreData, setChoreData] = useState([]);
-  const [newChore, setNewChore] = useState("");
 
   const choresCollectionRef = collection(db, "chores");
 
@@ -35,7 +33,7 @@ function Chores() {
     };
   }, []);
 
-  // add resident to table
+  // add chore to table
   // const addChore = async (e) => {
   //   e.preventDefault(); // prevent page refresh
 

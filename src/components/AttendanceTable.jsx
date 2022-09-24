@@ -21,8 +21,8 @@ const AttendanceTable = ({ attendanceData, deleteState }) => {
           <tr>
             <th>Resident Name</th>
             <th>Present</th>
-            <th>Excused Absence</th>
-            <th>Unexcused Absence</th>
+            <th>Known Absence</th>
+            <th>Unknown Absence</th>
             <th>Notes</th>
           </tr>
         </thead>

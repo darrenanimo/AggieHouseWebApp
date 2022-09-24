@@ -52,7 +52,7 @@ export const UserProvider = ({ children }) => {
               role: "user",
             });
           } catch (e) {
-            console.log(e);
+            console.error(e);
           }
         };
 
@@ -67,7 +67,7 @@ export const UserProvider = ({ children }) => {
         navigate("/redirecting");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -78,7 +78,7 @@ export const UserProvider = ({ children }) => {
         console.log("signout success");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

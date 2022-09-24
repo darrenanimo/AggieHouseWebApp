@@ -7,6 +7,7 @@ function SMSIndividual() {
   const [number, setNumber] = useState('');
   const { users } = useUser();
 
+
   const sendSms = (event) => {
     event.preventDefault();
 

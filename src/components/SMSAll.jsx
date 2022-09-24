@@ -1,41 +1,38 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 import { useUser } from "../context/UserProvider";
 
 function SMSAll() {
-  const [sms, setSms] = useState('');
-  const [number, setNumber] = useState('');
+  const [sms, setSms] = useState("");
+  const [number, setNumber] = useState("");
   const { users } = useUser();
 
   const sendSms = (event) => {
     event.preventDefault();
 
     let smsObj = {
-        mobile_number: number,
-        message: sms,
-    }
+      mobile_number: number,
+      message: sms,
+    };
 
-    
-    users.forEach((user, key) => {
+    users.forEach((user) => {
       console.log("sending text");
-    fetch(`https://aggie-house-reminders.herokuapp.com/send-text?recipient=${user.phoneNumber}&textmessage=${smsObj.message}`)
-    .catch(err => console.error(err))
-      })
-    
-    alert("Mass Text Sent")
-  }
-    
-              
 
+      if (user.phoneNumber) {
+        fetch(
+          `https://aggie-house-reminders.herokuapp.com/send-text?recipient=${user.phoneNumber}&textmessage=${smsObj.message}`
+        ).catch((err) => console.error(err));
+      }
+    });
+  };
 
   const handleChange = (event) => {
-    if (event.target.name === 'number') {
+    if (event.target.name === "number") {
       setNumber(event.target.value);
-    } else if (event.target.name === 'sms') {
+    } else if (event.target.name === "sms") {
       setSms(event.target.value);
     }
-  
-  }
+  };
 
   return (
     <Container>
@@ -56,13 +53,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: left;
   justify-content: center;
-  background-color: #E8E2DC;
-`
+  height: 100vh;
+  background-color: #e8e2dc;
+`;
 
 const Header = styled.h3`
   text-transform: uppercase;
   letter-spacing: 1px;
-`
+`;
 
 const Form = styled.form`
   display: flex;
@@ -74,7 +72,7 @@ const Input = styled.input`
   width: 50%;
   padding: 12px;
   margin: 6px 0 4px;
-`
+`;
 
 const TextArea = styled.textarea`
   width: 50%;
@@ -82,10 +80,10 @@ const TextArea = styled.textarea`
   padding: 12px;
   margin: 6px 0 4px;
   height: 100px;
-`
+`;
 
 const Button = styled.button`
   &:hover {
     cursor: pointer;
   }
-`
+`;

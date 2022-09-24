@@ -92,24 +92,29 @@ function MealsCalendar() {
             <div className="modalBody">
               Ingredients: {selectedMeal.ingredients}
             </div>
-            { isAdmin() && (<div className="modalBody">
-              Add Ingredients:{" "}
-              <input
-                className="inputText"
-                placeholder="Ex: Rice"
-                onChange={(e) => {
-                  setIngredients(e.target.value);
-                }}
-              />{" "}
-              <button
-                className="modalSubmit"
-                onClick={() => {
-                  updateIngredients(selectedMeal.id, selectedMeal.ingredients);
-                }}
-              >
-                Submit
-              </button>
-            </div>)}
+            {isAdmin() && (
+              <div className="modalBody">
+                Add Ingredients:{" "}
+                <input
+                  className="inputText"
+                  placeholder="Ex: Rice"
+                  onChange={(e) => {
+                    setIngredients(e.target.value);
+                  }}
+                />{" "}
+                <button
+                  className="modalSubmit"
+                  onClick={() => {
+                    updateIngredients(
+                      selectedMeal.id,
+                      selectedMeal.ingredients
+                    );
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            )}
             <div className="modalBody">
               Link to Recipe Book:{" "}
               <a
@@ -122,29 +127,30 @@ function MealsCalendar() {
               </a>
             </div>
             <br />
-            { isAdmin() && (<div className="modalFooter">
-              <button
-                className="modalButtons"
-                onClick={() => {
-                  console.log(modalState);
-                  setModalState(false);
-                }}
-              >
-                {" "}
-                Cancel{" "}
-              </button>
-              <button
-                className="modalButtons"
-                style={{ marginLeft: "-15%" }}
-                onClick={() => {
-                  deleteMeal(selectedMeal.id);
-                  setModalState(false);
-                }}
-              >
-                {" "}
-                Delete{" "}
-              </button>
-            </div> )}
+            {isAdmin() && (
+              <div className="modalFooter">
+                <button
+                  className="modalButtons"
+                  onClick={() => {
+                    setModalState(false);
+                  }}
+                >
+                  {" "}
+                  Cancel{" "}
+                </button>
+                <button
+                  className="modalButtons"
+                  style={{ marginLeft: "-15%" }}
+                  onClick={() => {
+                    deleteMeal(selectedMeal.id);
+                    setModalState(false);
+                  }}
+                >
+                  {" "}
+                  Delete{" "}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </>
@@ -159,26 +165,25 @@ function MealsCalendar() {
   const slotSelection = useCallback(
     ({ start, end }) => {
       if (isAdmin()) {
-      const title = window.prompt("New Meal Name:");
-      if (title) {
-        const addMeal = async () => {
-          await addDoc(mealsCollectionRef, {
-            title: title,
-            start: start,
-            end: end,
-            ingredients: "",
-            link: "",
-          });
-        };
-        addMeal();
-      } else {
-        console.error("Empty title");
+        const title = window.prompt("New Meal Name:");
+        if (title) {
+          const addMeal = async () => {
+            await addDoc(mealsCollectionRef, {
+              title: title,
+              start: start,
+              end: end,
+              ingredients: "",
+              link: "",
+            });
+          };
+          addMeal();
+        } else {
+          console.error("Empty title");
+        }
       }
-    }},
+    },
     [setMeals]
   );
-
-  console.log(myMeals);
 
   return (
     <div>

@@ -66,9 +66,12 @@ export const AttendanceNotesForm = ({ val }) => {
             onChange={(e) => {
               setNotes(e.target.value);
             }}
+            defaultValue={val.notes}
           />
-          <input type="submit" />
-          <button onClick={() => toggleNoteForm(!noteForm)}>Cancel</button>
+          <div>
+            <input type="submit" />
+            <button onClick={() => toggleNoteForm(!noteForm)}>Cancel</button>
+          </div>
         </form>
       )}
     </div>

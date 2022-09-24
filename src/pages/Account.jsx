@@ -86,10 +86,10 @@ function Account() {
           console.log("image delete success");
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
 
     // v4() generates random string to prevent duplicate file names

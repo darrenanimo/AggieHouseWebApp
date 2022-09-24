@@ -43,7 +43,7 @@ function UpcomingShift({ events }) {
             }
           }
         });
-        setNextShift(comingEvent);
+        if (comingEvent.start > new Date()) setNextShift(comingEvent);
       }
     };
 

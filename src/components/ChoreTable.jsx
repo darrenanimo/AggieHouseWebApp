@@ -1,8 +1,10 @@
 import React from "react";
 import "../pages/css/Todo.css";
+import editButton from "../images/pencil-edit-button.svg";
 
 // components
 import ChoreStatusButton from "./ChoreStatusButton";
+import { ChoresForm } from "./ChoresForm";
 
 const ChoreTable = ({ choreData }) => {
   return (
@@ -20,7 +22,11 @@ const ChoreTable = ({ choreData }) => {
           </tr>
           <tr>
             {choreData?.map((val, key) => {
-              return <td key={key}>{val.chore}</td>;
+              return (
+                <td key={key}>
+                  <ChoresForm val={val} />
+                </td>
+              );
             })}
           </tr>
           <tr>

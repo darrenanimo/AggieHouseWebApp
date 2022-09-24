@@ -42,10 +42,10 @@ function UserInfo({ user }) {
           console.log("image delete success");
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     // set delete success message
     setUserDeletedMsg("User Deleted!");
